@@ -755,6 +755,13 @@ class BaseDocument(object):
 			elif language == "PythonExpression":
 				frappe.utils.validate_python_code(code_string, fieldname=field.label)
 
+	def _sync_autoname_field(self):
+		"""Keep autoname field in sync with `name`"""
+		autoname = self.meta.autoname or ""
+		_empty, _field_specifier, fieldname = autoname.partition("field:")
+
+		if fieldname and self.name and self.name != self.get("fieldname"):
+			self.set(fieldname, self.name)
 
 	def throw_length_exceeded_error(self, df, max_length, value):
 		if self.parentfield and self.idx:
@@ -961,7 +968,11 @@ class BaseDocument(object):
 		to_reset = []
 
 		for df in high_permlevel_fields:
-			if df.permlevel not in has_access_to and df.fieldtype not in display_fieldtypes:
+			if (
+				df.permlevel not in has_access_to
+				and df.fieldtype not in display_fieldtypes
+				and df.fieldname not in self.flags.get("ignore_permlevel_for_fields", [])
+			):
 				to_reset.append(df)
 
 		if to_reset:
