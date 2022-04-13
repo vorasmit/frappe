@@ -51,6 +51,7 @@ def safe_exec(script, _globals=None, _locals=None, restrict_commit_rollback=Fals
 	if restrict_commit_rollback:
 		exec_globals.frappe.db.pop('commit', None)
 		exec_globals.frappe.db.pop('rollback', None)
+		exec_globals.frappe.db.pop("add_index", None)
 
 	# execute script compiled by RestrictedPython
 	frappe.flags.in_safe_exec = True
@@ -168,7 +169,8 @@ def get_safe_globals():
 			escape = frappe.db.escape,
 			sql = read_sql,
 			commit = frappe.db.commit,
-			rollback = frappe.db.rollback
+			rollback = frappe.db.rollback,
+			add_index=frappe.db.add_index
 		)
 
 	if frappe.response:
