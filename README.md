@@ -1,6 +1,5 @@
 <div align="center">
 	<h1>
-		<br>
 		<a href="https://frappeframework.com">
 			<img src=".github/frappe-framework-logo.svg" height="50">
 		</a>
@@ -33,6 +32,8 @@
 
 
 Full-stack web application framework that uses Python and MariaDB on the server side and a tightly integrated client side library. Built for [ERPNext](https://erpnext.com)
+
+https://user-images.githubusercontent.com/36654812/166199234-8525a991-7544-4320-8880-17c01d4679ee.mp4
 
 <div align="center" style="max-height: 40px;">
 	<a href="https://frappecloud.com/frappe/signup">
