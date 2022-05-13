@@ -1,11 +1,5 @@
 import frappe
-from frappe import _
-from frappe.desk.moduleview import (
-	config_exists,
-	get_data,
-	get_module_link_items_from_list,
-	get_onboard_items,
-)
+from frappe.desk.moduleview import get_onboard_items
 
 
 def get_modules_from_all_apps_for_user(user=None):

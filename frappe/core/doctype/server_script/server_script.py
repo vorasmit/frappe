@@ -2,7 +2,6 @@
 # Copyright (c) 2019, Frappe Technologies and contributors
 # License: MIT. See LICENSE
 
-import ast
 from types import FunctionType, MethodType, ModuleType
 from typing import Dict, List
 

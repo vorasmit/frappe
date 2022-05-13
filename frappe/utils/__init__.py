@@ -17,7 +17,6 @@ from gzip import GzipFile
 from typing import Generator, Iterable
 from urllib.parse import quote, urlparse
 
-from redis.exceptions import ConnectionError
 from traceback_with_variables import iter_exc_lines
 from werkzeug.test import Client
 

@@ -2,7 +2,6 @@
 # License: MIT. See LICENSE
 
 # model __init__.py
-import frappe
 
 data_fieldtypes = (
 	"Currency",
