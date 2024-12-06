@@ -963,10 +963,10 @@ class Database:
 		doc_updates: dict,
 		*,
 		chunk_size: int = 100,
-		modified=None,
-		modified_by=None,
+		modified: str | None = None,
+		modified_by: str | None = None,
 		update_modified: bool = True,
-		debug=False,
+		debug: bool = False,
 	):
 		"""
 		:param doctype: DocType to update
@@ -1000,13 +1000,11 @@ class Database:
 		if not doc_updates:
 			return
 
-		modified_dict = (
-			self._get_update_dict(
+		modified_dict = None
+		if update_modified:
+			modified_dict = self._get_update_dict(
 				{}, None, modified=modified, modified_by=modified_by, update_modified=update_modified
 			)
-			if update_modified
-			else None
-		)
 
 		total_docs = len(doc_updates)
 		iterator = iter(doc_updates.items())
@@ -1016,7 +1014,9 @@ class Database:
 			self._build_and_run_bulk_update_query(doctype, doc_chunk, modified_dict, debug)
 
 	@staticmethod
-	def _build_and_run_bulk_update_query(doctype: str, doc_updates: dict, modified_dict=None, debug=False):
+	def _build_and_run_bulk_update_query(
+		doctype: str, doc_updates: dict, modified_dict: dict | None = None, debug: bool = False
+	):
 		"""
 		:param doctype: DocType to update
 		:param doc_updates: Dictionary of key (docname) and values to update
