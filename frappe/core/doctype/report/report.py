@@ -191,11 +191,27 @@ class Report(Document):
 
 		return res
 
+	def get_xlsx_styles(self, metadata, filters):
+		if self.is_standard != "Yes" or self.report_type not in ("Query Report", "Script Report"):
+			return
+
+		try:
+			get_xlsx_styles_method = self.get_module_method("get_xlsx_styles")
+		except AttributeError:
+			# Ignore if method is not defined
+			return
+
+		return get_xlsx_styles_method(metadata, filters)
+
+	def get_module_method(self, method):
+		module = self.module or frappe.db.get_value("DocType", self.ref_doctype, "module")
+		method_path = get_report_module_dotted_path(module, self.name) + "." + method
+		return frappe.get_attr(method_path)
+
 	def execute_module(self, filters):
 		# report in python module
-		module = self.module or frappe.db.get_value("DocType", self.ref_doctype, "module")
-		method_name = get_report_module_dotted_path(module, self.name) + ".execute"
-		return frappe.get_attr(method_name)(frappe._dict(filters))
+		return self.get_module_method("execute")(frappe._dict(filters))
+
 
 	def execute_script(self, filters):
 		# server script
